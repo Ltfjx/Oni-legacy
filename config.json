@@ -1,0 +1,8 @@
+{
+    "//port": "Oni 运行端口",
+    "port": 80,
+    "//debuglog": "是否输出调试日志",
+    "debuglog": true,
+    "//tzp8": "是否强制将日志时区转为UTC+8",
+    "tzp8": true
+}

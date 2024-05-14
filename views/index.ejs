@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" />
+  <meta name="renderer" content="webkit" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <%- include('./template/head.ejs') %>
+
+
+
+    <title>Oni</title>
+</head>
+
+<body style="margin: 0;">
+
+  <mdui-layout style="height: 100vh;">
+
+
+    <mdui-top-app-bar scroll-behavior="elevate" scroll-target="#main-content-area">
+      <mdui-icon style="align-self: center;font-size: 2.5rem;margin-left: 0.5rem;" name='developer_board'></mdui-icon>
+      <mdui-top-app-bar-title>
+        <div>Oni</div>
+      </mdui-top-app-bar-title>
+      <div style="align-self: center; opacity: 0.2;" id="slogan"></div>
+      <div style="flex-grow: 1"></div>
+    </mdui-top-app-bar>
+
+    <mdui-layout-item>
+      <mdui-navigation-rail divider id="navi-rail">
+
+        <mdui-navigation-rail-item icon="home--outlined" id="rail-overview">
+          总览
+        </mdui-navigation-rail-item>
+
+        <mdui-navigation-rail-item icon="insert_chart--outlined" id="rail-stats">
+          统计
+        </mdui-navigation-rail-item>
+
+        <mdui-navigation-rail-item icon="grid_on--outlined" id="rail-ae">
+          AE
+        </mdui-navigation-rail-item>
+
+        <mdui-navigation-rail-item icon="adb--outlined" id="rail-bot">
+          BOT
+        </mdui-navigation-rail-item>
+
+        <mdui-navigation-rail-item icon="terminal--outlined" id="rail-debug">
+          调试
+        </mdui-navigation-rail-item>
+
+        <!-- 深色模式切换 -->
+        <mdui-button-icon slot="bottom" id="buttonDarkMode" icon="dark_mode">
+        </mdui-button-icon>
+
+        <!-- 设置配色 -->
+        <mdui-button-icon slot="bottom" id="buttonColor" icon="color_lens">
+
+        </mdui-button-icon>
+        <input type="color" id="colorPicker" hidden>
+
+        <!-- 设置 -->
+        <mdui-button-icon slot="bottom" id="buttonSettings" icon="settings">
+        </mdui-button-icon>
+
+      </mdui-navigation-rail>
+    </mdui-layout-item>
+
+
+    <mdui-layout-main id="main-content-area">
+      <div id="overview-content" class="panel-content">
+
+        <div style="margin-bottom: 1rem;">
+          <h2 style="margin-bottom: 0.25rem;margin-top: 0.25rem;" id="text-overview-welcome">PotatoCraft GTNH</h2>
+          <div style="opacity: 0.5;display: flex;align-items: center;">
+            <mdui-icon name="account_circle"></mdui-icon>
+            <div id="text-overview-welcome-sub">&nbsp;</div>
+          </div>
+        </div>
+
+        <div class="overview-circle-container">
+
+          <mdui-card class="overview-circle-card" variant="filled">
+            <div style="font-size: larger;"><b>兰波顿超级电容库</b></div>
+            <div id="progressbar-battery-text" class="overview-progressbar-text">0/1 EU</div>
+            <div id="progressbar-battery" class="overview-progressbar-circle"></div>
+            <div id="progressbar-battery-textio" class="overview-progressbar-text">avg: 0 EU/t</div>
+          </mdui-card>
+
+          <mdui-card class="overview-circle-card" variant="filled">
+            <div style="font-size: larger;"><b>OniBOT 在线状态</b></div>
+            <div id="progressbar-onibot-text" style="opacity: 0.4;margin-bottom: 1rem;">0/1 设备</div>
+            <div id="progressbar-onibot" style="height: 150px;width: 150px;position: relative;"></div>
+          </mdui-card>
+
+          <mdui-card class="overview-circle-card" variant="filled">
+            <div style="font-size: larger;"><b>AE 负载</b></div>
+            <div id="progressbar-ae-cpus-text" style="opacity: 0.4;margin-bottom: 1rem;">0/1 核心工作中</div>
+            <div id="progressbar-ae-cpus" style="height: 150px;width: 150px;position: relative;"></div>
+          </mdui-card>
+
+        </div>
+
+        <h2>苯储量：</h2>
+        <mdui-linear-progress value="30" max="100" style="height: 1rem;"></mdui-linear-progress>
+        <div>10000/114514 MB</div>
+
+      </div>
+
+      <div id="stats-content" class="panel-content" hidden>
+        <h2 style="text-align: center;opacity: 0.5;">少女Coding中...</h2>
+      </div>
+
+      <div id="ae-content" class="panel-content" hidden>
+        <h2>AE CPU</h2>
+        <div class="ae-core-container" id="ae-core-container">
+
+          <mdui-card class="ae-core-card" variant="filled">
+            <div class="ae-core-card-title">
+              <mdui-icon name='download_done'></mdui-icon>
+              &nbsp;
+              <div>CPU 0 - 空闲</div>
+            </div>
+          </mdui-card>
+
+          <mdui-card class="ae-core-card" variant="filled">
+            <div class="ae-core-card-title">
+              <mdui-icon name='settings_suggest'></mdui-icon>
+              &nbsp;
+              <span>CPU 1 - 合成中（114/514）</span>
+            </div>
+          </mdui-card>
+
+          <mdui-card class="ae-core-card" variant="filled">
+            <div class="ae-core-card-title">
+              <mdui-icon name='download_done'></mdui-icon>
+              &nbsp;
+              <div>CPU 2 - 空闲</div>
+            </div>
+          </mdui-card>
+
+          <mdui-card class="ae-core-card" variant="filled">
+            <div class="ae-core-card-title">
+              <mdui-icon name='download_done'></mdui-icon>
+              &nbsp;
+              <div>CPU 3 - 空闲</div>
+            </div>
+          </mdui-card>
+
+          <mdui-card class="ae-core-card" variant="filled">
+            <div class="ae-core-card-title">
+              <mdui-icon name='download_done'></mdui-icon>
+              &nbsp;
+              <div>CPU 4 - 空闲</div>
+            </div>
+          </mdui-card>
+
+          <mdui-card class="ae-core-card" variant="filled">
+            <div class="ae-core-card-title">
+              <mdui-icon name='download_done'></mdui-icon>
+              &nbsp;
+              <div>CPU 5 - 空闲</div>
+            </div>
+          </mdui-card>
+
+          <mdui-card class="ae-core-card" variant="filled">
+            <div class="ae-core-card-title">
+              <mdui-icon name='download_done'></mdui-icon>
+              &nbsp;
+              <div>CPU 6 - 空闲</div>
+            </div>
+          </mdui-card>
+
+          <mdui-card class="ae-core-card" variant="filled">
+            <div class="ae-core-card-title">
+              <mdui-icon name='download_done'></mdui-icon>
+              &nbsp;
+              <div>CPU 7 - 空闲</div>
+            </div>
+          </mdui-card>
+
+        </div>
+      </div>
+
+      <div id="bot-content" hidden>
+        <mdui-list id="bot-list">
+          <mdui-list-item alignment="center" description="操纵密和疏程度的能力">
+            Suika
+            <mdui-icon slot="icon" name="filter_1"></mdui-icon>
+            <div slot="end-icon" class="bot-card-end-icon">
+              <span style="opacity: 0.5;">1 分钟前</span>
+              &nbsp;&nbsp;
+              <mdui-icon name="done"></mdui-icon>
+            </div>
+          </mdui-list-item>
+          <mdui-list-item alignment="center" description="拥有怪力乱神程度的能力" style="opacity: 0.5;">
+            Yugi
+            <mdui-icon slot="icon" name="filter_2"></mdui-icon>
+            <div slot="end-icon" class="bot-card-end-icon">
+              <span style="opacity: 0.5;">离线</span>
+              &nbsp;&nbsp;
+              <mdui-icon name="error"></mdui-icon>
+            </div>
+          </mdui-list-item>
+          <mdui-list-item alignment="center" description="引导动物程度的能力" style="opacity: 0.5;">
+            Kasen
+            <mdui-icon slot="icon" name="filter_3"></mdui-icon>
+            <div slot="end-icon" class="bot-card-end-icon">
+              <span style="opacity: 0.5;">离线</span>
+              &nbsp;&nbsp;
+              <mdui-icon name="error"></mdui-icon>
+            </div>
+          </mdui-list-item>
+        </mdui-list>
+      </div>
+
+      <div id="debug-content" hidden>
+        <mdui-collapse id="log-list" accordion>
+
+          <mdui-collapse-item value="item-1" style="background-color: rgb(var(--mdui-color-error-container));">
+            <mdui-list-item slot="header" icon="bug_report">API: Failed to get subsystem status for purpose
+              <div slot="end-icon">
+                2024/3/7 9:36:06
+              </div>
+            </mdui-list-item>
+            <div style="margin-left: 2.5rem; margin-bottom: 1rem; margin-top: 1rem;">
+              {rejected: true, message: 'UNSUPPORTED_OS'}
+              message
+              :
+              "UNSUPPORTED_OS"
+              rejected
+              :
+              true
+              [[Prototype]]
+              :
+              Object
+            </div>
+          </mdui-collapse-item>
+
+          <mdui-collapse-item value="item-2" style="background-color: rgb(var(--mdui-color-tertiary-container));">
+            <mdui-list-item slot="header" icon="warning">API: WARN
+              <div slot="end-icon">
+                2024/3/7 9:36:05
+              </div>
+            </mdui-list-item>
+            <div style="margin-left: 2.5rem; margin-bottom: 1rem; margin-top: 1rem;">
+              Nope
+            </div>
+          </mdui-collapse-item>
+
+          <mdui-collapse-item value="item-3">
+            <mdui-list-item slot="header" icon="info">API: PING
+              <div slot="end-icon">
+                2024/3/7 9:36:04
+              </div>
+            </mdui-list-item>
+            <div style="margin-left: 2.5rem; margin-bottom: 1rem; margin-top: 1rem;">
+              RUA!
+            </div>
+          </mdui-collapse-item>
+
+        </mdui-collapse>
+      </div>
+
+    </mdui-layout-main>
+
+  </mdui-layout>
+
+  <mdui-snackbar auto-close-delay="60000" id="snackbar" placement="bottom-end">
+    <div>
+      少女祈祷中... (0/5)
+    </div>
+    <mdui-linear-progress style="width: 100%;"></mdui-linear-progress>
+  </mdui-snackbar>
+
+  <mdui-dialog id="settings-dialog">
+    <span slot="headline">Oni Settings</span>
+    <span slot="description">
+      <mdui-text-field label="Token" id="text-field-settings-token"></mdui-text-field>
+      <mdui-checkbox id="checkbox-settings-localhost-mode">本地调试模式</mdui-checkbox>
+    </span>
+    <mdui-button variant="outlined" id="button-settings-discard">取消</mdui-button>
+    <mdui-button variant="filled" id="button-settings-apply">保存</mdui-button>
+  </mdui-dialog>
+
+  <script src="js/progressbar.min.js"></script>
+  <script src="js/index.js"></script>
+
+  <link rel="stylesheet" href="css/index.css" />
+
+</body>
+
+</html>
