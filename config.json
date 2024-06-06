@@ -3,6 +3,12 @@
     "port": 80,
     "//debuglog": "是否输出调试日志",
     "debuglog": true,
-    "//tzp8": "是否强制将日志时区转为UTC+8",
-    "tzp8": true
+    "//tzp8": "是否强制将日志时区转为 UTC+8",
+    "tzp8": true,
+    "//eventMax": "事件列表的最大长度",
+    "eventMax": 50,
+    "//logStackMax": "日志列表的最大长度",
+    "logStackMax": 50,
+    "//serverIP": "服务器 IP",
+    "serverIP": "gtnh.akyuu.cn"
 }

@@ -2,7 +2,7 @@ local internet = require("internet")
 local component = require("component")
 local json = require("utils/dkjson")
 local utils = require("utils/potato")
-local token = ""
+local token = "TOKEN_REPLACEME_1"
 update = {}
 
 function update.battery()

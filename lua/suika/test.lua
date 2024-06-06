@@ -1,7 +1,7 @@
 local component = require("component")
 local json = require("utils/dkjson")
 local internet = require("internet")
-local token = ""
+local token = "TOKEN_REPLACEME_1"
 -- local table = component.list()
 -- printTable(table)
 

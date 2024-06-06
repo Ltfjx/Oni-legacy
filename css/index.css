@@ -3,11 +3,19 @@
 }
 
 /* // Panel-Overview // */
+.overview-server-status-card {
+  margin-bottom: 1rem;
+  align-items: start;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
 
 .overview-circle-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-  gap: .5rem;
+  gap: 1rem;
   justify-content: center;
 }
 
@@ -31,6 +39,22 @@
 }
 
 
+/* // Panel-Stats // */
+
+.stats-chart-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
+  gap: 1rem;
+  justify-content: center;
+}
+
+.stats-chart-card {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 
 /* // Panel-Ae // */
 
@@ -52,6 +76,7 @@
   height: 100%;
   padding: 1rem;
 }
+
 
 
 

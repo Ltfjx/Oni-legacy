@@ -2,8 +2,8 @@ function getTimeString() {
     let str: string = ""
     let date = new Date()
 
-    if (tzp8tf) {
-        date.setHours(date.getHours() + 8);
+    if (tzp8Tf) {
+        date.setHours(date.getHours() + 8)
     }
 
     if (date.getHours() < 10) { str += "0" }
@@ -21,6 +21,11 @@ function getTimeString() {
 function getTimeStringWithDate() {
     let str: string = ""
     let date = new Date()
+
+    if (tzp8Tf) {
+        date.setHours(date.getHours() + 8)
+    }
+
     str += `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()} `
     // Why Month+1 ??
     str += getTimeString()
@@ -40,16 +45,18 @@ function publicLogStackAdd(time: string, type: string, part: string, text: strin
     if (publicLogStack.length > 50) { publicLogStack.shift() }
 }
 
-var debugtf: boolean
-var tzp8tf: boolean
+var debuglogTf: boolean
+var tzp8Tf: boolean
+var logStackMaxNum: number
 
 export function init(config: any) {
-    debugtf = config.debuglog // 是否输出调试日志
-    tzp8tf = config.tzp8
+    debuglogTf = config.debuglog
+    tzp8Tf = config.tzp8
+    logStackMaxNum = config.logStackMax
 }
 
 export function debug(t: any, p: string) {
-    if (debugtf) {
+    if (debuglogTf) {
         console.log(`[${getTimeString()}] [${p}/DEBUG]: ${t}`)
         publicLogStackAdd(getTimeStringWithDate(), "debug", p, t)
     }
@@ -69,4 +76,5 @@ export function error(t: any, p: string) {
     } else {
         console.log(`[${getTimeString()}] [${p}/ERROR]: ${t}`)
     }
+    publicLogStackAdd(getTimeStringWithDate(), "error", p, `${t.stack}`)
 }

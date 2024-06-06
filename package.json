@@ -6,19 +6,17 @@
   "scripts": {
     "dev": "nodemon app.ts --ignore ./data",
     "build": "tsc",
-    "rollup": "npx rollup -p @rollup/plugin-node-resolve js/index.js -o js/bundle.js",
     "start": "node dist/app.js"
   },
   "author": "RLt",
   "license": "MIT",
   "dependencies": {
-    "@material/web": "^1.3.0",
-    "@rollup/plugin-node-resolve": "^15.2.3",
     "ejs": "^3.1.9",
     "express": "^4.18.3",
-    "rollup": "^4.12.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "axios": "^1.6.8",
+    "minecraftstatuspinger":"^1.1.5"
   },
   "devDependencies": {
     "@types/ejs": "^3.1.5",

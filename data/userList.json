@@ -1,7 +1,12 @@
 [
     {
-        "uuid": "dfc9b0fb-8d9e-4a7c-9adc-c83565101f00",
-        "name": "Oni",
-        "token": "&xIBNXMgftm*d5mHk@vD"
+        "uuid": "UUID_REPLACEME_1",
+        "name": "USERNAME_REPLACEME_1",
+        "token": "TOKEN_REPLACEME_1"
+    },
+    {
+        "uuid": "UUID_REPLACEME_2",
+        "name": "USERNAME_REPLACEME_2",
+        "token": "TOKEN_REPLACEME_2"
     }
 ]

@@ -36,6 +36,10 @@
           总览
         </mdui-navigation-rail-item>
 
+        <mdui-navigation-rail-item icon="crisis_alert" id="rail-events">
+          事件
+        </mdui-navigation-rail-item>
+
         <mdui-navigation-rail-item icon="insert_chart--outlined" id="rail-stats">
           统计
         </mdui-navigation-rail-item>
@@ -81,6 +85,37 @@
           </div>
         </div>
 
+        <mdui-card class="overview-server-status-card" variant="filled">
+          <div style="display: flex;align-items: center;margin-top: 1rem;margin-left: 1.5rem;margin-bottom: 0.5rem;">
+            <div style="font-size: larger;"><b>服务器状态</b></div>
+            <div style="opacity: 0.5;">&nbsp;@&nbsp;</div>
+            <div id="overview-server-status-card-text-ip" style="opacity: 0.5;">gtnh.akyuu.cn</div>
+          </div>
+
+          <div style="display: flex;align-items: center;margin-bottom: 0.5rem; margin-left: 1.5rem;">
+            <mdui-icon name="bolt"></mdui-icon>
+            &nbsp;
+            <div><b id="overview-server-status-card-text-online">运行正常</b></div>
+            &nbsp;
+            <div id="overview-server-status-card-text-players" style="opacity: 0.5;">(0/1)</div>
+          </div>
+
+          <div style="display: flex;align-items: center;margin-bottom: 0.5rem; margin-left: 1.5rem;">
+            <mdui-icon name="engineering"></mdui-icon>
+            &nbsp;
+            <div><b id="overview-server-status-card-text-list-text">在线员工：</b><span
+                id="overview-server-status-card-text-list">Akyuu</span></div>
+          </div>
+
+          <div style="display: flex;align-items: center;margin-bottom: 1rem; margin-left: 1.5rem;">
+            <div id="overview-server-status-card-text-motd" style="opacity: 0.25;font-size: smaller;">GT New Horizons
+            </div>
+          </div>
+
+
+        </mdui-card>
+
+
         <div class="overview-circle-container">
 
           <mdui-card class="overview-circle-card" variant="filled">
@@ -104,85 +139,53 @@
 
         </div>
 
-        <h2>苯储量：</h2>
+        <h2>苯：</h2>
         <mdui-linear-progress value="30" max="100" style="height: 1rem;"></mdui-linear-progress>
-        <div>10000/114514 MB</div>
+        <div>0/1 MB</div>
 
       </div>
 
+      <div id="events-content" class="panel-content" hidden>
+        <h2 style="text-align: center;opacity: 0.5;">@yyq252517 出来写代码</h2>
+      </div>
+
       <div id="stats-content" class="panel-content" hidden>
-        <h2 style="text-align: center;opacity: 0.5;">少女Coding中...</h2>
+
+        <h2>STATS - WIP</h2>
+
+        <div style="display: flex;align-items: center;">
+          <div>Simplify Level</div>
+          <mdui-slider oninput="panelStatsAdjustSL()" id="slider-SL" tickmarks step="1" max="20" style="width: 20rem;"></mdui-slider>
+        </div>
+
+        <div class="stats-chart-container">
+          <mdui-card class="stats-chart-card" variant="filled">
+            <div class="chart-container" style="position: relative; height:40vh; width:100%">
+              <canvas id="chart-battery"></canvas>
+            </div>
+          </mdui-card>
+
+          <!-- <mdui-card class="stats-chart-card" variant="filled">
+            <div class="chart-container" style="position: relative; height:40vh; width:100%">
+              <canvas id="chart-battery2"></canvas>
+            </div>  
+          </mdui-card>
+
+          <mdui-card class="stats-chart-card" variant="filled">
+            <div class="chart-container" style="position: relative; height:40vh; width:100%">
+              <canvas id="chart-battery3"></canvas>
+            </div>  
+          </mdui-card> -->
+
+        </div>
       </div>
 
       <div id="ae-content" class="panel-content" hidden>
         <h2>AE CPU</h2>
         <div class="ae-core-container" id="ae-core-container">
 
-          <mdui-card class="ae-core-card" variant="filled">
-            <div class="ae-core-card-title">
-              <mdui-icon name='download_done'></mdui-icon>
-              &nbsp;
-              <div>CPU 0 - 空闲</div>
-            </div>
-          </mdui-card>
-
-          <mdui-card class="ae-core-card" variant="filled">
-            <div class="ae-core-card-title">
-              <mdui-icon name='settings_suggest'></mdui-icon>
-              &nbsp;
-              <span>CPU 1 - 合成中（114/514）</span>
-            </div>
-          </mdui-card>
-
-          <mdui-card class="ae-core-card" variant="filled">
-            <div class="ae-core-card-title">
-              <mdui-icon name='download_done'></mdui-icon>
-              &nbsp;
-              <div>CPU 2 - 空闲</div>
-            </div>
-          </mdui-card>
-
-          <mdui-card class="ae-core-card" variant="filled">
-            <div class="ae-core-card-title">
-              <mdui-icon name='download_done'></mdui-icon>
-              &nbsp;
-              <div>CPU 3 - 空闲</div>
-            </div>
-          </mdui-card>
-
-          <mdui-card class="ae-core-card" variant="filled">
-            <div class="ae-core-card-title">
-              <mdui-icon name='download_done'></mdui-icon>
-              &nbsp;
-              <div>CPU 4 - 空闲</div>
-            </div>
-          </mdui-card>
-
-          <mdui-card class="ae-core-card" variant="filled">
-            <div class="ae-core-card-title">
-              <mdui-icon name='download_done'></mdui-icon>
-              &nbsp;
-              <div>CPU 5 - 空闲</div>
-            </div>
-          </mdui-card>
-
-          <mdui-card class="ae-core-card" variant="filled">
-            <div class="ae-core-card-title">
-              <mdui-icon name='download_done'></mdui-icon>
-              &nbsp;
-              <div>CPU 6 - 空闲</div>
-            </div>
-          </mdui-card>
-
-          <mdui-card class="ae-core-card" variant="filled">
-            <div class="ae-core-card-title">
-              <mdui-icon name='download_done'></mdui-icon>
-              &nbsp;
-              <div>CPU 7 - 空闲</div>
-            </div>
-          </mdui-card>
-
         </div>
+
       </div>
 
       <div id="bot-content" hidden>

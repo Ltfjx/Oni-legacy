@@ -1,23 +1,23 @@
 [
     {
-        "uuid": "0defdc0e-c45b-4a30-8eb1-2750b9b6e56a",
+        "uuid": "UUID_REPLACEME_1",
         "name": "Suika",
         "description": "操纵密和疏程度的能力",
-        "token": "S727L5BAKSVMN81RZSWC",
+        "token": "TOKEN_REPLACEME_1",
         "lastseen": 0
     },
     {
-        "uuid": "7cae81f3-f8b5-44fd-a76e-2b8c5728f28a",
+        "uuid": "UUID_REPLACEME_2",
         "name": "Yugi",
         "description": "拥有怪力乱神程度的能力",
-        "token": "HOCK2KVVFUS7ALG4JZRQ",
+        "token": "TOKEN_REPLACEME_2",
         "lastseen": 0
     },
     {
-        "uuid": "199f048a-49b9-4c31-9c12-7eded5e82969",
+        "uuid": "UUID_REPLACEME_3",
         "name": "Kasen",
         "description": "引导动物程度的能力",
-        "token": "PQY4NGUE0OW9WROV6T13",
+        "token": "TOKEN_REPLACEME_3",
         "lastseen": 0
     }
 ]

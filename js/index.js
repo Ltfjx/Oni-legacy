@@ -57,7 +57,7 @@ document.getElementById("buttonDarkMode").addEventListener("click", () => {
 
 // 导轨
 !(function () {
-    let railItems = ["overview", "stats", "ae", "bot", "debug"]
+    let railItems = ["overview", "events", "stats", "ae", "bot", "debug"]
     function hideAll() {
         railItems.forEach(item => {
             document.getElementById(`${item}-content`).setAttribute("hidden", "true")
@@ -119,6 +119,8 @@ async function api(target, params) {
         "/web/getBotList": "GET",
         "/web/getServerLog": "GET",
         "/web/getAeCpusData": "GET",
+        "/web/getMcServerStatus": "GET",
+        "/web/getProberData": "GET",
         "/ping": "GET"
     }
 
@@ -135,7 +137,11 @@ async function api(target, params) {
         }
         return await response.json()
     } catch (error) {
-        console.error('error', error)
+        mdui.snackbar({
+            message: target + " API 请求出现了错误，请报告给开发者",
+            closeable: true,
+            placement: "bottom-end"
+        })
         return null
     }
 }
@@ -145,7 +151,6 @@ async function api(target, params) {
 //
 
 api("/web/getUserData", { token: token }).then(result => {
-    const msg = (result.code == 0) ? `欢迎回来，格雷员工 ${result.data.name}！` : "身份验证失败，请检查 Token。"
 
     if (result.code == 0) {
         document.getElementById("text-overview-welcome-sub").innerText += result.data.name
@@ -243,19 +248,34 @@ function initPanelOverview() {
 }
 
 function updatePanelOverview() {
+    api("/web/getMcServerStatus", { token: token }).then((result => {
+        const ip = result.data.ip
+        const online = result.data.online
+        const pmax = result.data.players.max
+        const ponline = result.data.players.online
+        const plistt = result.data.players.list ? "在线员工：" : "无人在线"
+        const plist = result.data.players.list ? result.data.players.list.map(item => item.name).join("、") : ""
+        const motd = result.data.motd
+        document.getElementById("overview-server-status-card-text-ip").innerText = ip
+        document.getElementById("overview-server-status-card-text-online").innerText = online ? "运行正常" : "离线"
+        document.getElementById("overview-server-status-card-text-players").innerText = `(${ponline}/${pmax})`
+        document.getElementById("overview-server-status-card-text-list-text").innerText = plistt
+        document.getElementById("overview-server-status-card-text-list").innerText = plist
+        document.getElementById("overview-server-status-card-text-motd").innerText = motd
+    }))
     api("/web/getRtData", { token: token, name: "battery" }).then((result => {
         barBattery.animate(result.data.value / result.data.max)
-        let value = Math.floor(result.data.value / 1000)
-        let max = Math.floor(result.data.max / 1000)
-        let unit = "K" + result.data.unit
-        let euio = result.data.euio
-        euio = euio > 0 ? "+" + euio : euio
+        const value = Math.floor(result.data.value / 1000)
+        const max = Math.floor(result.data.max / 1000)
+        const unit = "K" + result.data.unit
+        const euio = result.data.euio
+        const euiot = euio > 0 ? "+" + euio : euio
         document.getElementById("progressbar-battery-text").innerText = `${value}/${max} ${unit}`
-        document.getElementById("progressbar-battery-textio").innerText = `avg: ${euio} EU/t`
+        document.getElementById("progressbar-battery-textio").innerText = `avg: ${euiot} EU/t`
     }))
     api("/web/getBotList", { token: token }).then(result => {
-        let max = result.data.length
-        let value = result.data.filter(bot => {
+        const max = result.data.length
+        const value = result.data.filter(bot => {
             const timeDifference = Date.now() - bot.lastseen
             return timeDifference <= 60000
         }).length
@@ -264,14 +284,118 @@ function updatePanelOverview() {
         document.getElementById("progressbar-onibot-text").innerText = `${value}/${max} 设备`
     })
     api("/web/getAeCpusData", { token: token }).then(result => {
-        let max = result.data.length
-        let value = result.data.filter(cpu => { return cpu.busy }).length
+        const max = result.data.length
+        const value = result.data.filter(cpu => { return cpu.busy }).length
 
         barAeCpus.animate(value / max)
         document.getElementById("progressbar-ae-cpus-text").innerText = `${value}/${max} 核心工作中`
     })
 }
 
+
+//
+// Panel-AE
+//
+
+initPanelStats()
+updatePanelStats()
+setInterval(() => {
+    updatePanelStats()
+}, 60000)
+
+var chartBattery, rawBattery
+var SL = document.getElementById("slider-SL").value
+
+function timestampToTime(timestamp) {
+    var date = new Date(timestamp * 1000)
+    var hours = date.getHours().toString().padStart(2, '0')
+    var minutes = date.getMinutes().toString().padStart(2, '0')
+    var seconds = date.getSeconds().toString().padStart(2, '0')
+    return hours + ":" + minutes + ":" + seconds
+}
+
+function initPanelStats() {
+
+    api("/web/getProberData", { token: token, part: "rtData", name: "battery", "range": 1 }).then(result => {
+        rawBattery = result.data
+
+        const ctx = document.getElementById("chart-battery")
+
+        let d = []
+        let labels = []
+        rawBattery.split(";").forEach((data, i) => {
+            if (i % (SL + 1) == 0) {
+                labels.push(timestampToTime(data.split("|")[0]))
+                d.push(data.split("|")[1])
+            }
+        })
+
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: '兰波顿超级电容库',
+                data: d,
+                fill: false,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            }]
+        };
+
+        const config = {
+            type: 'line',
+            data: data,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        }
+
+        chartBattery = new Chart(ctx, config)
+    })
+
+
+}
+
+function updatePanelStats() { }
+
+function panelStatsAdjustSL() {
+    if (chartBattery) { chartBattery.destroy() }
+    SL = document.getElementById("slider-SL").value
+
+    const ctx = document.getElementById("chart-battery")
+
+    let d = []
+    let labels = []
+    rawBattery.split(";").forEach((data, i) => {
+        if (i % (SL + 1) == 0) {
+            labels.push(timestampToTime(data.split("|")[0]))
+            d.push(data.split("|")[1])
+        }
+    })
+
+    const data = {
+        labels: labels,
+        datasets: [{
+            label: '兰波顿超级电容库',
+            data: d,
+            fill: false,
+            borderColor: 'rgb(75, 192, 192)',
+            tension: 0.1
+        }]
+    };
+
+    const config = {
+        type: 'line',
+        data: data,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    }
+
+    chartBattery = new Chart(ctx, config)
+
+}
 
 //
 // Panel-AE
@@ -297,8 +421,28 @@ function updatePanelAe() {
             const icon = core.busy ? "settings_suggest" : "download_done"
             const text = core.busy ? "合成中" : "空闲"
             const item = core.finalOutputLabel
-            const num = core.finalOutputLeft
-            const info = core.busy ? `<div style="margin-top: .5rem;">剩余：${item} * ${num}</div>` : ""
+            const total = core.finalOutputTotal
+            const num = total - core.finalOutputLeft
+            const timeDifference = (new Date().getTime() - core.timeStarted)
+
+            let timeUsed = ""
+            if (Math.floor(timeDifference / 1000) <= 60) {
+                timeUsed = " · " + Math.floor(timeDifference / 1000) + " 秒"
+            }
+            else if (Math.floor(timeDifference / 1000 / 60) <= 60) {
+                timeUsed = " · " + Math.floor(timeDifference / 1000 / 60) + " 分钟"
+            }
+            else if (Math.floor(timeDifference / 1000 / 60 / 60) <= 24) {
+                timeUsed = " · " + Math.floor(timeDifference / 1000 / 60 / 60) + " 小时"
+            }
+
+
+            const info = core.busy ? `<div style="margin-top: .5rem;margin-bottom: .5rem;"><b>${item}</b> - ${num} / ${total}</div>` : ""
+            const progress = core.busy ? `
+            <div style="display: flex;align-items: center;">
+                <div style="opacity: 0.5;">${Math.floor(num / total * 100)}%&nbsp;&nbsp;</div>
+                <mdui-linear-progress value="${Math.floor(num / total * 100)}" max="100"></mdui-linear-progress>
+            </div>`: ""
             AeCoreList.innerHTML += `
             <mdui-card class="ae-core-card" variant="filled">
             <div class="ae-core-card-title">
@@ -306,10 +450,11 @@ function updatePanelAe() {
               &nbsp;&nbsp;
               <div>
                 <div>CPU ${i} <span style="opacity: 0.7">- "${name}"</span></div>
-                <div style="font-weight: normal;font-size: .8rem;opacity: 0.5">${text}</div>
+                <div style="font-weight: normal;font-size: .8rem;opacity: 0.5">${text}${timeUsed}</div>
               </div>
             </div>
             ${info}
+            ${progress}
           </mdui-card>
             `
         })
